@@ -1,0 +1,10 @@
+React uygulamasının derlenmiş çıktısını backend'in public dizinine koymalıyız ki Express sunucusu bu dosyaları servis edebilsin.
+
+Bunları çalıştır sırayla:
+
+cd frontend
+
+npm run build 
+
+cp -r build ../backend/public
+

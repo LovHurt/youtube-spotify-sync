@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+
+const App = () => {
+  const [from, setFrom] = useState('youtube');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const to = from === 'youtube' ? 'spotify' : 'youtube';
+
+    const response = await fetch('/api/sync', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ from, to })
+    });
+    const result = await response.json();
+    alert(result.message);
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Sync Liked Songs</h1>
+        <form onSubmit={handleSubmit}>
+          <label>
+            From:
+            <select value={from} onChange={(e) => setFrom(e.target.value)}>
+              <option value="youtube">YouTubeMusic to Spotify</option>
+              <option value="spotify">Spotify to YouTubeMusic</option>
+            </select>
+          </label>
+          <br /><br />
+          <button type="submit">Sync</button>
+        </form>
+      </header>
+    </div>
+  );
+};
+
+export default App;
