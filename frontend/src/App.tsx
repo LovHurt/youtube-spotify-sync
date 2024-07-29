@@ -5,9 +5,9 @@ const App = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const to = from === 'youtube' ? 'spotify' : 'youtube';
+    const to = from === 'spotify' ? 'youtube' : 'spotify';
 
-    const response = await fetch('/api/sync', {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/sync`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,8 +26,8 @@ const App = () => {
           <label>
             From:
             <select value={from} onChange={(e) => setFrom(e.target.value)}>
-              <option value="youtube">YouTubeMusic to Spotify</option>
-              <option value="spotify">Spotify to YouTubeMusic</option>
+              <option value="youtube">Spotify to YouTubeMusic</option>
+              <option value="spotify">YouTubeMusic to Spotify</option>
             </select>
           </label>
           <br /><br />

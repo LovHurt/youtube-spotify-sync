@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 import { youtubeToSpotify, spotifyToYoutube } from './playwright';
 
 dotenv.config();
@@ -8,9 +9,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(cors());
 app.use(express.json());
 
-// Statik dosyaları servis et
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('*', (req, res) => {
@@ -29,9 +30,10 @@ app.post('/api/sync', async (req, res) => {
     }
 
     res.json({ message: 'Sync işlemi tamamlandı' });
-  } catch (error) {
-    console.error('Sync error:', error);
-    res.status(500).json({ message: 'Sync işlemi sırasında bir hata oluştu' });
+  } catch (error:any) {
+    console.error('Sync error:', error.message);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ message: `Sync işlemi sırasında bir hata oluştu: ${error.message}` });
   }
 });
 
